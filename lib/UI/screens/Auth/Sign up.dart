@@ -346,7 +346,7 @@ class _Sign_upState extends State<Sign_up> {
                           padding: const EdgeInsets.all(15),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            color: Color(0xFFFBF3F5),
+                            color: Color(0xFFFFA3B3),
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1, color: Color(0xFFF73658)),

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/UI/components/Homecontainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,13 @@ class _HomeState extends State<Home> {
   final search = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final firestore = FirebaseFirestore.instance.collection('Beauty').snapshots();
-  int currentindex=0;
+  final firestore2 =
+      FirebaseFirestore.instance.collection('banners').snapshots();
+  final firestore3 =
+      FirebaseFirestore.instance.collection('Deal of the day').snapshots();
+      final firestore4 =
+      FirebaseFirestore.instance.collection('Trending Product').snapshots();
+  int currentindex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,140 +101,403 @@ class _HomeState extends State<Home> {
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20.h,
-              ),
-              Text(
-                'All Features',
-                style: GoogleFonts.montserrat(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    height: 0.07),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              SizedBox(
-                height: 70.h,
-                child: Container(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: firestore,
-                      builder:
-                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text('error'),
-                          );
-                        }
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(left: 8.w, right: 5.h),
-                                child: Container(
-                                  height: 80.h,
-                                  width: 56.w,
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25.r,
-                                        backgroundImage: NetworkImage(snapshot
-                                            .data!.docs[index]['Thumnail']
-                                            .toString()),
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Text(
-                                        snapshot.data!.docs[index]['title']
-                                            .toString(),
-                                        style: GoogleFonts.montserrat(
-                                          color: Color(0xFF21003D),
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w400,
-                                          height: 0.16,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20.h,
+                ),
+                Text(
+                  'All Features',
+                  style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      height: 0.07),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                SizedBox(
+                  height: 70.h,
+                  child: Container(
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: firestore,
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text('error'),
+                            );
+                          }
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 8.w, right: 5.h),
+                                  child: Container(
+                                    height: 80.h,
+                                    width: 56.w,
+                                    child: Column(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 25.r,
+                                          backgroundImage: NetworkImage(snapshot
+                                              .data!.docs[index]['Thumnail']
+                                              .toString()),
+                                        ),
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        Text(
+                                          snapshot.data!.docs[index]['title']
+                                              .toString(),
+                                          style: GoogleFonts.montserrat(
+                                            color: Color(0xFF21003D),
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400,
+                                            height: 0.16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        }),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                    height: 220.h,
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: firestore2,
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text('error'),
+                            );
+                          }
+                          if (snapshot.hasData) {
+                            return Column(
+                              children: [
+                                CarouselSlider.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (BuildContext context, int index,
+                                      int realIndex) {
+                                    return Container(
+                                      height: 189.h,
+                                      width: 340.w,
+                                      decoration: ShapeDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(snapshot
+                                              .data!.docs[index]['img']
+                                              .toString()),
+                                          fit: BoxFit.fill,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
                                         ),
                                       ),
-                                    ],
+                                    );
+                                  },
+                                  options: CarouselOptions(
+                                    reverse: false,
+                                    height: 189.h,
+                                    enlargeCenterPage: true,
+                                    autoPlay: false,
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enableInfiniteScroll: true,
+                                    autoPlayAnimationDuration:
+                                        Duration(milliseconds: 800),
+                                    viewportFraction: 1.5.sp,
+                                    onPageChanged: (index, reason) {
+                                      setState(() {
+                                        currentindex = index;
+                                      });
+                                    },
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                AnimatedSmoothIndicator(
+                                  activeIndex: currentindex,
+                                  count: snapshot.data!.docs.length,
+                                  effect: WormEffect(
+                                      dotHeight: 10.h,
+                                      dotWidth: 10.w,
+                                      radius: 10.r,
+                                      dotColor:
+                                          Color.fromARGB(255, 205, 201, 201),
+                                      activeDotColor: Color(0xFFFFA3B3)),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        })),
+                SizedBox(
+                  height: 10.h,
                 ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              SizedBox(
-                height: 220.h,
-                child: Column(
-                  children: [
-                    CarouselSlider.builder(
-                      itemCount: 3,
-                      itemBuilder:
-                          (BuildContext context, int index, int realIndex) {
-                        return Container(
-                          height: 189.h,
-                          width: 340.w,
+                Container(
+                  width: 343.w,
+                  height: 60.h,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF4392F8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r)),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Deal of the Day',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            height: 0.08,
+                          ),
+                        ),
+                        Container(
+                          width: 89.w,
+                          height: 28.h,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.h,
+                          ),
                           decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://via.placeholder.com/343x189"),
-                              fit: BoxFit.fill,
-                            ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
+                              side: BorderSide(width: 1, color: Colors.white),
+                              borderRadius: BorderRadius.circular(4.r),
                             ),
                           ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        reverse: false,
-                        height: 189.h,
-                        enlargeCenterPage: true,
-                        autoPlay: false,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enableInfiniteScroll: true,
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        viewportFraction: 1.5.sp,onPageChanged: (index, reason) {
-                          setState(() {
-                            currentindex=index;
-                          });
-                        },
-                      ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'View all',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0.11,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_right_outlined,
+                                color: Colors.white,
+                                size: 20.sp,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.h,),
-                     AnimatedSmoothIndicator(
-                      
-                      activeIndex: currentindex,
-                      count: 3,
-                      effect: WormEffect(
-                          dotHeight: 10.h,
-                          dotWidth: 10.w,
-                          radius: 10.r,
-                          dotColor: Color.fromARGB(104, 245, 42, 42),
-                          activeDotColor: Colors.black),
-                    ),
-                  ],
+                  ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                  height: 241.h,
+                  child: Container(
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: firestore3,
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('error'),
+                              );
+                            }
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:  EdgeInsets.only(right: 10.w),
+                                    child: Homecontainer(
+                                        img: snapshot
+                                            .data!.docs[index]['Thumnail'][0]
+                                            .toString(),
+                                        about: snapshot.data!.docs[index]['about']
+                                            .toString(),
+                                        name: snapshot.data!.docs[index]['title']
+                                            .toString(),
+                                        Price: snapshot.data!.docs[index]['price']
+                                            .toString(),
+                                        offer: snapshot.data!.docs[index]['offer']
+                                            .toString(),
+                                        star: double.parse(snapshot
+                                            .data!.docs[index]['rating']
+                                            .toString()),
+                                        index: index,
+                                        discount: snapshot
+                                            .data!.docs[index]['discount']
+                                            .toString()),
+                                  );
+                                },
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          })),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                 SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  width: 343.w,
+                  height: 60.h,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFFC6D86),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r)),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Trending Products',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            height: 0.08,
+                          ),
+                        ),
+                        Container(
+                          width: 89.w,
+                          height: 28.h,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(width: 1, color: Colors.white),
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'View all',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0.11,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_right_outlined,
+                                color: Colors.white,
+                                size: 20.sp,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                  height: 241.h,
+                  child: Container(
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: firestore4,
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('error'),
+                              );
+                            }
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:  EdgeInsets.only(right: 10.w),
+                                    child: Homecontainer(
+                                        img: snapshot
+                                            .data!.docs[index]['Thumnail'][0]
+                                            .toString(),
+                                        about: snapshot.data!.docs[index]['about']
+                                            .toString(),
+                                        name: snapshot.data!.docs[index]['title']
+                                            .toString(),
+                                        Price: snapshot.data!.docs[index]['price']
+                                            .toString(),
+                                        offer: snapshot.data!.docs[index]['offer']
+                                            .toString(),
+                                        star: double.parse(snapshot
+                                            .data!.docs[index]['rating']
+                                            .toString()),
+                                        index: index,
+                                        discount: snapshot
+                                            .data!.docs[index]['discount']
+                                            .toString()),
+                                  );
+                                },
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          })),
+                ),
+                SizedBox(
+                  height: 10.h,
+                )
+              ],
+            ),
           ),
         ));
   }
