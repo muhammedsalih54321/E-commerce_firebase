@@ -350,8 +350,8 @@ class _HomeState extends State<Home> {
                                     padding:  EdgeInsets.only(right: 10.w),
                                     child: Homecontainer(
                                         img: snapshot
-                                            .data!.docs[index]['Thumnail'][0]
-                                            .toString(),
+                                            .data!.docs[index]['Thumnail']
+                                            ,
                                         about: snapshot.data!.docs[index]['about']
                                             .toString(),
                                         name: snapshot.data!.docs[index]['title']
@@ -468,8 +468,8 @@ class _HomeState extends State<Home> {
                                     padding:  EdgeInsets.only(right: 10.w),
                                     child: Homecontainer(
                                         img: snapshot
-                                            .data!.docs[index]['Thumnail'][0]
-                                            .toString(),
+                                            .data!.docs[index]['Thumnail']
+                                           ,
                                         about: snapshot.data!.docs[index]['about']
                                             .toString(),
                                         name: snapshot.data!.docs[index]['title']

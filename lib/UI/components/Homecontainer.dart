@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Homecontainer extends StatelessWidget {
-  final String img;
+  final List<dynamic> img;
   final String discount;
   final String about;
   final String name;
@@ -43,7 +43,7 @@ class Homecontainer extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4.r)),
               ),
-               child: Image.network(img),
+               child: Image.network(img[0]),
             ),
             SizedBox(
               height: 10.h,

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Details extends StatefulWidget {
-    final String img;
+  final List<dynamic> img;
   final String discount;
   final String about;
   final String name;
@@ -54,17 +54,17 @@ class _DetailsState extends State<Details> {
                 child: Column(
                   children: [
                     CarouselSlider.builder(
-                      itemCount: widget.img.length,
+                      itemCount:widget.img.length,
                       itemBuilder:
                           (BuildContext context, int index, int realIndex) {
                         return Container(
                           width: 340.w,
                           height: 213.h,
                           decoration: ShapeDecoration(
-                            color: Colors.black,
+                           
                             image: DecorationImage(
                               image: NetworkImage(widget.img[index].toString()),
-                              fit: BoxFit.fill,
+                             
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.r),
@@ -93,7 +93,7 @@ class _DetailsState extends State<Details> {
                     ),
                     AnimatedSmoothIndicator(
                       activeIndex: currentindex,
-                      count: 3,
+                      count: widget.img.length,
                       effect: WormEffect(
                           dotHeight: 10.h,
                           dotWidth: 10.w,
@@ -107,7 +107,7 @@ class _DetailsState extends State<Details> {
               height: 10.h,
             ),
             Text(
-              'NIke Sneakers',
+              widget.name.toString(),
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 20.sp,
@@ -118,20 +118,13 @@ class _DetailsState extends State<Details> {
             SizedBox(
               height: 15.h,
             ),
-            Text(
-              'Vision Alta Men’s Shoes Size (All Colours)',
-              style: GoogleFonts.montserrat(
-                color: Colors.black,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+           
             SizedBox(
               height: 10.h,
             ),
             RatingBar.builder(
               itemSize: 18,
-              initialRating: 3,
+              initialRating: double.parse(widget.star.toString()),
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
@@ -150,7 +143,7 @@ class _DetailsState extends State<Details> {
             Row(
               children: [
                 Text(
-                  '₹2500',
+                  '₹${widget.Price.toString()}',
                   style: GoogleFonts.montserrat(
                     decoration: TextDecoration.lineThrough,
                     color: Color(0xFF808488),
@@ -163,7 +156,7 @@ class _DetailsState extends State<Details> {
                   width: 10.w,
                 ),
                 Text(
-                  '₹999',
+                   '₹${widget.offer.toString()}',
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontSize: 14.sp,
@@ -175,7 +168,7 @@ class _DetailsState extends State<Details> {
                   width: 10.w,
                 ),
                 Text(
-                  '50%Off',
+                  widget.discount.toString(),
                   style: GoogleFonts.montserrat(
                     color: Color(0xFFFE735C),
                     fontSize: 14.sp,
@@ -201,7 +194,7 @@ class _DetailsState extends State<Details> {
               height: 10,
             ),
             Text(
-              'Perhaps the most iconic sneaker of all-time, this original "Chicago"? colorway is the cornerstone to any sneaker collection. Made famous in 1985 by Michael Jordan, the shoe has stood the test of time, becoming the most famous colorway of the Air Jordan 1. This 2015 release saw the',
+              widget.about.toString(),
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 12.sp,
