@@ -1,4 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,8 +14,221 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final search = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final firestore = FirebaseFirestore.instance.collection('Beauty').snapshots();
+  int currentindex=0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('1'),);
+    return Scaffold(
+        appBar: AppBar(
+          leading: Icon(
+            CupertinoIcons.line_horizontal_3_decrease,
+            color: Colors.black,
+          ),
+          centerTitle: true,
+          title: Image.asset(
+            'assets/images/img6.png',
+            height: 100.h,
+            width: 110.w,
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.w),
+              child: CircleAvatar(
+                radius: 23.r,
+                backgroundImage: AssetImage('assets/images/img7.png'),
+              ),
+            )
+          ],
+          bottom: Tab(
+            height: 80.h,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Form(
+                key: formKey,
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: search,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color(0xFFBBBBBB),
+                      ),
+                      suffixIcon: Icon(
+                        Icons.mic_none_rounded,
+                        color: Color(0xFFBBBBBB),
+                      ),
+                      filled: true,
+                      errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1.w, color: Color(0xFFA8A8A9)),
+                          borderRadius: BorderRadius.circular(6.r)),
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1.w, color: Color(0xFFA8A8A9)),
+                          borderRadius: BorderRadius.circular(6.r)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1.w, color: Color(0xFFA8A8A9)),
+                          borderRadius: BorderRadius.circular(6.r)),
+                      hintText: 'Search any Product',
+                      hintStyle: GoogleFonts.montserrat(
+                        color: Color(0xFFBBBBBB),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 0.10,
+                      )),
+                  validator: (search) {
+                    if (search!.isEmpty) {
+                      return 'type any thing';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20.h,
+              ),
+              Text(
+                'All Features',
+                style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    height: 0.07),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              SizedBox(
+                height: 70.h,
+                child: Container(
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: firestore,
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('error'),
+                          );
+                        }
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(left: 8.w, right: 5.h),
+                                child: Container(
+                                  height: 80.h,
+                                  width: 56.w,
+                                  child: Column(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 25.r,
+                                        backgroundImage: NetworkImage(snapshot
+                                            .data!.docs[index]['Thumnail']
+                                            .toString()),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Text(
+                                        snapshot.data!.docs[index]['title']
+                                            .toString(),
+                                        style: GoogleFonts.montserrat(
+                                          color: Color(0xFF21003D),
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w400,
+                                          height: 0.16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              SizedBox(
+                height: 220.h,
+                child: Column(
+                  children: [
+                    CarouselSlider.builder(
+                      itemCount: 3,
+                      itemBuilder:
+                          (BuildContext context, int index, int realIndex) {
+                        return Container(
+                          height: 189.h,
+                          width: 340.w,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://via.placeholder.com/343x189"),
+                              fit: BoxFit.fill,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                        );
+                      },
+                      options: CarouselOptions(
+                        reverse: false,
+                        height: 189.h,
+                        enlargeCenterPage: true,
+                        autoPlay: false,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enableInfiniteScroll: true,
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        viewportFraction: 1.5.sp,onPageChanged: (index, reason) {
+                          setState(() {
+                            currentindex=index;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 8.h,),
+                     AnimatedSmoothIndicator(
+                      
+                      activeIndex: currentindex,
+                      count: 3,
+                      effect: WormEffect(
+                          dotHeight: 10.h,
+                          dotWidth: 10.w,
+                          radius: 10.r,
+                          dotColor: Color.fromARGB(104, 245, 42, 42),
+                          activeDotColor: Colors.black),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

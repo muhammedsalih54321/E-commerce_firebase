@@ -273,7 +273,7 @@ class _Sign_upState extends State<Sign_up> {
                                 "id": value.user!.uid.toString(),
                                 "email": email.text.toString(),
                                 "Profile": "",
-                                "Premium": false
+                               
                               });
 
                               setState(() {
