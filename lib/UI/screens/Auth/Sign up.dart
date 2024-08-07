@@ -243,15 +243,18 @@ class _Sign_upState extends State<Sign_up> {
                       return null;
                     },
                   ),
-                   Text(
-                            'By clicking the Register button, you agree\nto the public offe',
-                            style: GoogleFonts.montserrat(
-                              color: Color(0xFF676767),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    'By clicking the Register button, you agree\nto the public offe',
+                    style: GoogleFonts.montserrat(
+                      color: Color(0xFF676767),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
                   SizedBox(
                     height: 50.h,
                   ),
@@ -273,7 +276,6 @@ class _Sign_upState extends State<Sign_up> {
                                 "id": value.user!.uid.toString(),
                                 "email": email.text.toString(),
                                 "Profile": "",
-                               
                               });
 
                               setState(() {
@@ -319,7 +321,7 @@ class _Sign_upState extends State<Sign_up> {
                           ))),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 35.h),
                   Center(
                     child: Text(
                       'OR Continue with -',
@@ -343,20 +345,21 @@ class _Sign_upState extends State<Sign_up> {
                         child: Container(
                           width: 54.w,
                           height: 54.h,
-                          padding: const EdgeInsets.all(15),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            color: Color(0xFFFFA3B3),
+                            color: Color(0xFFFBF3F5),
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1, color: Color(0xFFF73658)),
                               borderRadius: BorderRadius.circular(50.r),
                             ),
                           ),
-                          child: Icon(
-                            Icons.phone,
-                            color: Colors.black,
-                            size: 28.sp,
+                          child: Center(
+                            child: Icon(
+                              Icons.phone,
+                              color: Colors.black,
+                              size: 28.sp,
+                            ),
                           ),
                         ),
                       ),
@@ -368,8 +371,8 @@ class _Sign_upState extends State<Sign_up> {
                           signinwithgoogle();
                         },
                         child: Container(
-                          width: 54,
-                          height: 54,
+                          width: 54.w,
+                          height: 54.h,
                           padding: const EdgeInsets.all(15),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(

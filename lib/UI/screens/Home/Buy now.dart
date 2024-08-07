@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Buynow extends StatefulWidget {
   final List<dynamic> img;
@@ -31,7 +35,88 @@ class Buynow extends StatefulWidget {
 }
 
 class _BuynowState extends State<Buynow> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  final firestorecollection = FirebaseFirestore.instance.collection('Users');
   final date = DateTime.now().add(Duration(days: 7));
+  void handlePaymentErrorResponse(PaymentFailureResponse response) {
+    /*
+    * PaymentFailureResponse contains three values:
+    * 1. Error Code
+    * 2. Error Description
+    * 3. Metadata
+    * */
+  }
+
+  void handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
+    firestorecollection
+        .doc(auth.currentUser!.uid.toString())
+        .collection("order")
+        .doc(widget.id.toString())
+        .set({
+      "id": widget.id.toString(),
+      'date':  '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
+      "title": widget.title.toString(),
+      "Thumnail": widget.img,
+      "rating": widget.star.toString(),
+      "about": widget.about.toString(),
+      "price": widget.Price.toString(),
+      "offer": widget.offer.toString(),
+      "discount": widget.discount.toString()
+    }).then(
+      (value) {
+        ToastMessage().toastmessage(message: 'added');
+      },
+    ).onError(
+      (error, stackTrace) {
+        ToastMessage().toastmessage(message: error.toString());
+      },
+    );
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+          title: CircleAvatar(
+            backgroundColor: Color(0xFFF73658),
+            radius: 40.r,
+            child: Center(
+              child: Icon(
+                Icons.done,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          content: Text(
+            'Payment done successfully.',
+            style: GoogleFonts.montserrat(
+              color: Color(0xFF222222),
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              height: 0.14,
+            ),
+          )),
+    );
+  }
+
+  void handleExternalWalletSelected(ExternalWalletResponse response) {
+    showAlertDialog(
+        context, "External Wallet Selected", "${response.walletName}");
+  }
+
+  void showAlertDialog(BuildContext context, String title, String message) {
+    // set up the buttons
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +482,31 @@ class _BuynowState extends State<Buynow> {
                   ],
                 ),
                 GestureDetector(
-                
+                  onTap: () {
+                    Razorpay razorpay = Razorpay();
+                    var options = {
+                      'key': 'rzp_test_gKANZdsNdLqaQs',
+                      'amount': 100,
+                      'name': 'Acme Corp.',
+                      'description': 'Fine T-Shirt',
+                      'retry': {'enabled': true, 'max_count': 1},
+                      'send_sms_hash': true,
+                      'prefill': {
+                        'contact': '8888888888',
+                        'email': 'test@razorpay.com'
+                      },
+                      'external': {
+                        'wallets': ['paytm']
+                      }
+                    };
+                    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
+                        handlePaymentErrorResponse);
+                    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                        handlePaymentSuccessResponse);
+                    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
+                        handleExternalWalletSelected);
+                    razorpay.open(options);
+                  },
                   child: Container(
                       width: 219.w,
                       height: 48.h,
