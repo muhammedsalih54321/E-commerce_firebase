@@ -1,6 +1,6 @@
 
 import 'package:e_commerce_firebase/UI/screens/Cart.dart';
-import 'package:e_commerce_firebase/UI/screens/Home.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/Home.dart';
 import 'package:e_commerce_firebase/UI/screens/Search.dart';
 import 'package:e_commerce_firebase/UI/screens/Settings.dart';
 import 'package:e_commerce_firebase/UI/screens/Wishlist.dart';
@@ -66,13 +66,15 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                   ),
                 label: ''),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline_rounded,
+                icon: Icon(Icons.search,
                     color: currentindex == 3 ? Color(0xFFF73658) : Colors.black),
                 label: 'Search'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_bag_outlined,
-                    color: currentindex == 4 ? Color(0xFFF73658) : Colors.black),
-                label: 'Settings'),
+                icon: CircleAvatar(
+                radius: 20.r,
+                backgroundImage: AssetImage('assets/images/img7.png'),
+              ),
+                label: ''),
           ]),
       body: screen[currentindex],
     );

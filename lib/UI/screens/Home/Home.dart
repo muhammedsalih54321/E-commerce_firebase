@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/UI/components/Homecontainer.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/Deal%20of%20the%20day.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/Trending%20Products.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/categories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,10 +45,7 @@ class _HomeState extends State<Home> {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 20.w),
-              child: CircleAvatar(
-                radius: 23.r,
-                backgroundImage: AssetImage('assets/images/img7.png'),
-              ),
+              child: IconButton(onPressed: (){}, icon: Icon(Icons.account_balance_wallet_rounded))
             )
           ],
           bottom: Tab(
@@ -144,31 +144,34 @@ class _HomeState extends State<Home> {
                                 return Padding(
                                   padding:
                                       EdgeInsets.only(left: 8.w, right: 5.h),
-                                  child: Container(
-                                    height: 80.h,
-                                    width: 56.w,
-                                    child: Column(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 25.r,
-                                          backgroundImage: NetworkImage(snapshot
-                                              .data!.docs[index]['Thumnail']
-                                              .toString()),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Text(
-                                          snapshot.data!.docs[index]['title']
-                                              .toString(),
-                                          style: GoogleFonts.montserrat(
-                                            color: Color(0xFF21003D),
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.w400,
-                                            height: 0.16,
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Categories(product: snapshot.data!.docs[index]['Products'],))),
+                                    child: Container(
+                                      height: 80.h,
+                                      width: 56.w,
+                                      child: Column(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 25.r,
+                                            backgroundImage: NetworkImage(snapshot
+                                                .data!.docs[index]['Thumnail']
+                                                .toString()),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          Text(
+                                            snapshot.data!.docs[index]['title']
+                                                .toString(),
+                                            style: GoogleFonts.montserrat(
+                                              color: Color(0xFF21003D),
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w400,
+                                              height: 0.16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
@@ -285,36 +288,39 @@ class _HomeState extends State<Home> {
                             height: 0.08,
                           ),
                         ),
-                        Container(
-                          width: 89.w,
-                          height: 28.h,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.h,
-                          ),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 1, color: Colors.white),
-                              borderRadius: BorderRadius.circular(4.r),
+                        GestureDetector(
+                           onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Dealoftheday())),
+                          child: Container(
+                            width: 89.w,
+                            height: 28.h,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.h,
                             ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'View all',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  height: 0.11,
-                                ),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Colors.white),
+                                borderRadius: BorderRadius.circular(4.r),
                               ),
-                              Icon(
-                                Icons.keyboard_arrow_right_outlined,
-                                color: Colors.white,
-                                size: 20.sp,
-                              )
-                            ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'View all',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600,
+                                    height: 0.11,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -354,7 +360,7 @@ class _HomeState extends State<Home> {
                                             ,
                                         about: snapshot.data!.docs[index]['about']
                                             .toString(),
-                                        name: snapshot.data!.docs[index]['title']
+                                        title: snapshot.data!.docs[index]['title']
                                             .toString(),
                                         Price: snapshot.data!.docs[index]['price']
                                             .toString(),
@@ -366,7 +372,9 @@ class _HomeState extends State<Home> {
                                         index: index,
                                         discount: snapshot
                                             .data!.docs[index]['discount']
-                                            .toString()),
+                                            .toString(), id:snapshot
+                                            .data!.docs[index]['id']
+                                            .toString() ,),
                                   );
                                 },
                               );
@@ -403,36 +411,39 @@ class _HomeState extends State<Home> {
                             height: 0.08,
                           ),
                         ),
-                        Container(
-                          width: 89.w,
-                          height: 28.h,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.h,
-                          ),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 1, color: Colors.white),
-                              borderRadius: BorderRadius.circular(4.r),
+                        GestureDetector(
+                             onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Trendingproducts())),
+                          child: Container(
+                            width: 89.w,
+                            height: 28.h,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.h,
                             ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'View all',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  height: 0.11,
-                                ),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Colors.white),
+                                borderRadius: BorderRadius.circular(4.r),
                               ),
-                              Icon(
-                                Icons.keyboard_arrow_right_outlined,
-                                color: Colors.white,
-                                size: 20.sp,
-                              )
-                            ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'View all',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600,
+                                    height: 0.11,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -472,7 +483,7 @@ class _HomeState extends State<Home> {
                                            ,
                                         about: snapshot.data!.docs[index]['about']
                                             .toString(),
-                                        name: snapshot.data!.docs[index]['title']
+                                        title: snapshot.data!.docs[index]['title']
                                             .toString(),
                                         Price: snapshot.data!.docs[index]['price']
                                             .toString(),
@@ -484,7 +495,9 @@ class _HomeState extends State<Home> {
                                         index: index,
                                         discount: snapshot
                                             .data!.docs[index]['discount']
-                                            .toString()),
+                                            .toString(), id:snapshot
+                                            .data!.docs[index]['id']
+                                            .toString(),),
                                   );
                                 },
                               );

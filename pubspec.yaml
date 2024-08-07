@@ -56,6 +56,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^26.2.5
   carousel_slider: ^4.2.1
   smooth_page_indicator: ^1.1.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

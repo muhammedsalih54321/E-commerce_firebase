@@ -1,4 +1,4 @@
-import 'package:e_commerce_firebase/UI/screens/Details.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/Details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +8,10 @@ class Homecontainer extends StatelessWidget {
   final List<dynamic> img;
   final String discount;
   final String about;
-  final String name;
+  final String title;
   final String Price;
   final String offer;
+  final String id;
   final double star;
   final int index;
 
@@ -18,17 +19,17 @@ class Homecontainer extends StatelessWidget {
       {super.key,
       required this.img,
       required this.about,
-      required this.name,
+      required this.title,
       required this.Price,
       required this.offer,
       required this.star,
       required this.index,
-    required this.discount});
+    required this.discount, required this.id});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Details(img: img, discount: discount, about: about, name: name, Price: Price, offer: offer, star: star, index: index))),
+      onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Details(img: img, discount: discount, about: about, title: title, Price: Price, offer: offer, star: star, index: index, id: id,))),
       child: Container(
         width: 170.w,
         height: 241.h,
@@ -52,7 +53,7 @@ class Homecontainer extends StatelessWidget {
               height: 3.h,
             ),
             Text(
-              name,
+              title,
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 12.sp,

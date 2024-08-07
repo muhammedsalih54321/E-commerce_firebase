@@ -1,4 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/Buy%20now.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,12 +14,23 @@ class Details extends StatefulWidget {
   final List<dynamic> img;
   final String discount;
   final String about;
-  final String name;
+  final String title;
   final String Price;
   final String offer;
   final double star;
   final int index;
-  const Details({super.key, required this.img, required this.discount, required this.about, required this.name, required this.Price, required this.offer, required this.star, required this.index});
+  final String id;
+  const Details(
+      {super.key,
+      required this.img,
+      required this.discount,
+      required this.about,
+      required this.title,
+      required this.Price,
+      required this.offer,
+      required this.star,
+      required this.index,
+      required this.id});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -23,6 +38,41 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   int currentindex = 0;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  bool favourate = false;
+  bool loading = false;
+  final firestorecollection = FirebaseFirestore.instance.collection('Users');
+  @override
+  void initState() {
+    checkFavourate();
+
+    super.initState();
+  }
+
+  Future<void> checkFavourate() async {
+    final firestoreCollection = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(auth.currentUser!.uid)
+        .collection('favouratecourse');
+
+    QuerySnapshot querySnapshot = await firestoreCollection.get();
+
+    // Get data from docs and convert map to List
+
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['id'].toString() == widget.id.toString()) {
+        print("item found");
+        setState(() {
+          favourate = true;
+        });
+      } else {
+        print("item not found");
+      }
+    }
+
+    // print("hi"+querySnapshot.docs.map((e){});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +95,7 @@ class _DetailsState extends State<Details> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.w),
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,17 +104,15 @@ class _DetailsState extends State<Details> {
                 child: Column(
                   children: [
                     CarouselSlider.builder(
-                      itemCount:widget.img.length,
+                      itemCount: widget.img.length,
                       itemBuilder:
                           (BuildContext context, int index, int realIndex) {
                         return Container(
                           width: 340.w,
                           height: 213.h,
                           decoration: ShapeDecoration(
-                           
                             image: DecorationImage(
                               image: NetworkImage(widget.img[index].toString()),
-                             
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.r),
@@ -106,21 +154,77 @@ class _DetailsState extends State<Details> {
             SizedBox(
               height: 10.h,
             ),
-            Text(
-              widget.name.toString(),
-              style: GoogleFonts.montserrat(
-                color: Colors.black,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-                height: 0.06,
-              ),
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-           
-            SizedBox(
-              height: 10.h,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.title.toString(),
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                    height: 0.06,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      checkFavourate();
+                      if (favourate == true) {
+                        firestorecollection
+                            .doc(auth.currentUser!.uid.toString())
+                            .collection("favouratecourse")
+                            .doc(widget.id.toString())
+                            .delete()
+                            .then(
+                          (value) {
+                            ToastMessage().toastmessage(message: 'remove');
+                            setState(() {
+                              favourate = false;
+                            });
+                          },
+                        ).onError(
+                          (error, stackTrace) {
+                            ToastMessage()
+                                .toastmessage(message: error.toString());
+                          },
+                        );
+                      } else {
+                        firestorecollection
+                            .doc(auth.currentUser!.uid.toString())
+                            .collection("favouratecourse")
+                            .doc(widget.id.toString())
+                            .set({
+                          "id": widget.id.toString(),
+                          "title": widget.title.toString(),
+                          "Thumnail": widget.img,
+                          "rating": widget.star.toString(),
+                          "about": widget.about.toString(),
+                          "price": widget.Price.toString(),
+                          "offer": widget.offer.toString(),
+                          "discount": widget.discount.toString()
+                        }).then(
+                          (value) {
+                            ToastMessage()
+                                .toastmessage(message: 'Saved succesfully');
+                            setState(() {
+                              favourate = true;
+                            });
+                          },
+                        ).onError(
+                          (error, stackTrace) {
+                            ToastMessage()
+                                .toastmessage(message: error.toString());
+                          },
+                        );
+                      }
+                    },
+                    icon: favourate == true
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : Icon(Icons.favorite_border_outlined))
+              ],
             ),
             RatingBar.builder(
               itemSize: 18,
@@ -156,7 +260,7 @@ class _DetailsState extends State<Details> {
                   width: 10.w,
                 ),
                 Text(
-                   '₹${widget.offer.toString()}',
+                  '₹${widget.offer.toString()}',
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontSize: 14.sp,
@@ -205,6 +309,36 @@ class _DetailsState extends State<Details> {
               height: 50.h,
             ),
             GestureDetector(
+              onTap: () {
+                setState(() {
+                  loading = true;
+                });
+                firestorecollection
+                    .doc(auth.currentUser!.uid.toString())
+                    .collection("cartcourse")
+                    .doc(widget.id.toString())
+                    .set({
+                  "id": widget.id.toString(),
+                  "title": widget.title.toString(),
+                  "Thumnail": widget.img,
+                  "rating": widget.star.toString(),
+                  "about": widget.about.toString(),
+                  "price": widget.Price.toString(),
+                  "offer": widget.offer.toString(),
+                  "discount": widget.discount.toString()
+                }).then(
+                  (value) {
+                    ToastMessage().toastmessage(message: 'added');
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                ).onError(
+                  (error, stackTrace) {
+                    ToastMessage().toastmessage(message: error.toString());
+                  },
+                );
+              },
               child: Container(
                   width: double.infinity.w,
                   height: 55.h,
@@ -221,15 +355,17 @@ class _DetailsState extends State<Details> {
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Go to cart',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          height: 0,
-                        ),
-                      )
+                      loading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              'Add to cart',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.white,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
+                            )
                     ],
                   ))),
             ),
@@ -237,6 +373,19 @@ class _DetailsState extends State<Details> {
               height: 20.h,
             ),
             GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => Buynow(
+                          img: widget.img,
+                          discount: widget.discount.toString(),
+                          about: widget.about.toString(),
+                          title: widget.title.toString(),
+                          Price: widget.Price.toString(),
+                          offer: widget.offer.toString(),
+                          star: double.parse(widget.star.toString()),
+                          index: widget.index,
+                          id: widget.id.toString()))),
               child: Container(
                   width: double.infinity.w,
                   height: 55.h,
