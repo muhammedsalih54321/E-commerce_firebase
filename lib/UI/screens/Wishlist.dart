@@ -67,7 +67,7 @@ class Wishlist extends StatelessWidget {
                         itemCount: snapshot.data!.docs.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 258 / 400,
+                           childAspectRatio: 237 / 400,
                             crossAxisSpacing: 6,
                             mainAxisSpacing: 10),
                         itemBuilder: (context, index) {

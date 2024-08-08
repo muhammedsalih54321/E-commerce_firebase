@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/Buy%20now.dart';
+import 'package:e_commerce_firebase/UI/screens/Wishlist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -204,11 +205,18 @@ class _DetailsState extends State<Details> {
                           "discount": widget.discount.toString()
                         }).then(
                           (value) {
-                            ToastMessage()
-                                .toastmessage(message: 'Saved succesfully');
-                            setState(() {
-                              favourate = true;
-                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Go to Whish list'),
+                              action: SnackBarAction(
+                                  label: 'Whish List',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Wishlist()));
+                                  }),
+                            ));
+                           
                           },
                         ).onError(
                           (error, stackTrace) {
@@ -328,10 +336,20 @@ class _DetailsState extends State<Details> {
                   "discount": widget.discount.toString()
                 }).then(
                   (value) {
-                    ToastMessage().toastmessage(message: 'added');
-                    setState(() {
-                      loading = false;
-                    });
+                       setState(() {
+                  loading = false;
+                });
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Go to Cart Page'),
+                              action: SnackBarAction(
+                                  label: 'Cart Page',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Wishlist()));
+                                  }),
+                            ));
                   },
                 ).onError(
                   (error, stackTrace) {

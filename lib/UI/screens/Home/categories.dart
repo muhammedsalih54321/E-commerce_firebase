@@ -37,7 +37,7 @@ class _CategoriesState extends State<Categories> {
             itemCount: widget.product.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 280 / 400,
+                childAspectRatio: 276 / 400,
                 crossAxisSpacing: 6,
                 mainAxisSpacing: 10),
             itemBuilder: (context, index) {

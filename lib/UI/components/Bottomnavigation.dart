@@ -1,8 +1,7 @@
-
 import 'package:e_commerce_firebase/UI/screens/Cart.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/Home.dart';
 import 'package:e_commerce_firebase/UI/screens/Search.dart';
-import 'package:e_commerce_firebase/UI/screens/Settings.dart';
+import 'package:e_commerce_firebase/UI/screens/Settings/Settings.dart';
 import 'package:e_commerce_firebase/UI/screens/Wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +20,7 @@ class _BottomnavigationState extends State<Bottomnavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-           type: BottomNavigationBarType.fixed,
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
           selectedItemColor: Color(0xFFF73658),
           showUnselectedLabels: true,
@@ -35,7 +34,7 @@ class _BottomnavigationState extends State<Bottomnavigation> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_filled,
-                  color: currentindex == 0 ?Color(0xFFF73658): Colors.black),
+                  color: currentindex == 0 ? Color(0xFFF73658) : Colors.black),
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -45,10 +44,11 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 ),
                 label: 'Wishlist'),
             BottomNavigationBarItem(
-                icon: Container( width: 53.85.w,
+                icon: Container(
+                  width: 53.85.w,
                   height: 56.h,
                   decoration: ShapeDecoration(
-                    color: currentindex == 2 ? Color(0xFFF73658): Colors.white,
+                    color: currentindex == 2 ? Color(0xFFF73658) : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
@@ -61,20 +61,22 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                       )
                     ],
                   ),
-                  child:Center(child:  Icon(Icons.shopping_cart_outlined,
-                    color: currentindex == 2 ? Colors.white : Colors.black),) ,
+                  child: Center(
+                    child: Icon(Icons.shopping_cart_outlined,
+                        color: currentindex == 2 ? Colors.white : Colors.black),
                   ),
+                ),
                 label: ''),
             BottomNavigationBarItem(
                 icon: Icon(Icons.search,
-                    color: currentindex == 3 ? Color(0xFFF73658) : Colors.black),
+                    color:
+                        currentindex == 3 ? Color(0xFFF73658) : Colors.black),
                 label: 'Search'),
             BottomNavigationBarItem(
-                icon: CircleAvatar(
-                radius: 20.r,
-                backgroundImage: AssetImage('assets/images/img7.png'),
-              ),
-                label: ''),
+                icon: Icon(Icons.settings,
+                    color:
+                        currentindex == 4 ? Color(0xFFF73658) : Colors.black),
+                label: 'Settings'),
           ]),
       body: screen[currentindex],
     );

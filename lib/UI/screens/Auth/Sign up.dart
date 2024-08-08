@@ -17,6 +17,7 @@ class Sign_up extends StatefulWidget {
 
 class _Sign_upState extends State<Sign_up> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+   final name = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final Conformpassword = TextEditingController();
@@ -75,7 +76,7 @@ class _Sign_upState extends State<Sign_up> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 30.h,
+                    height: 10.h,
                   ),
                   Text(
                     'Create an \naccount!\n',
@@ -84,13 +85,51 @@ class _Sign_upState extends State<Sign_up> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                   TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: name,
+                    style: TextStyle(color: Colors.black),
+                     decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: Color(0xFF616161),
+                        ),
+                        filled: true,
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1.w, color: Color(0xFFA8A8A9)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        fillColor: Color(0xFFF3F3F3),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1.w, color: Color(0xFFA8A8A9)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1.w, color: Color(0xFFA8A8A9)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        hintText: 'User name',
+                        hintStyle: GoogleFonts.poppins(
+                          color: Color(0xFF7C7C7C),
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w400,
+                          height: 0.10,
+                        )),
+                    validator: (email) {
+                      if (email!.isEmpty) {
+                        return 'Enter Your name';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.h,),
                   TextFormField(
                     textInputAction: TextInputAction.next,
                     controller: email,
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.person,
+                          Icons.email,
                           color: Color(0xFF616161),
                         ),
                         filled: true,
@@ -124,7 +163,7 @@ class _Sign_upState extends State<Sign_up> {
                     },
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height: 20.h,
                   ),
                   TextFormField(
                     controller: password,
@@ -181,7 +220,7 @@ class _Sign_upState extends State<Sign_up> {
                     },
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height: 20.h,
                   ),
                   SizedBox(
                     height: 2.h,
@@ -256,7 +295,7 @@ class _Sign_upState extends State<Sign_up> {
                     ),
                   ),
                   SizedBox(
-                    height: 50.h,
+                    height: 30.h,
                   ),
                   Center(
                     child: GestureDetector(
@@ -274,6 +313,7 @@ class _Sign_upState extends State<Sign_up> {
                             (value) async {
                               firestore.doc(value.user!.uid.toString()).set({
                                 "id": value.user!.uid.toString(),
+                                "name": name.text.toString(),
                                 "email": email.text.toString(),
                                 "Profile": "",
                               });
@@ -321,7 +361,7 @@ class _Sign_upState extends State<Sign_up> {
                           ))),
                     ),
                   ),
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   Center(
                     child: Text(
                       'OR Continue with -',
@@ -334,7 +374,7 @@ class _Sign_upState extends State<Sign_up> {
                     ),
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height: 20.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -392,7 +432,7 @@ class _Sign_upState extends State<Sign_up> {
                     ],
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height:15.h,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

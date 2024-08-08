@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/UI/components/Bottomnavigation.dart';
 import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +58,8 @@ class _BuynowState extends State<Buynow> {
         .doc(widget.id.toString())
         .set({
       "id": widget.id.toString(),
-      'date':  '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
+      'date':
+          '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
       "title": widget.title.toString(),
       "Thumnail": widget.img,
       "rating": widget.star.toString(),
@@ -65,35 +69,47 @@ class _BuynowState extends State<Buynow> {
       "discount": widget.discount.toString()
     }).then(
       (value) {
-        ToastMessage().toastmessage(message: 'added');
+       
       },
     ).onError(
       (error, stackTrace) {
         ToastMessage().toastmessage(message: error.toString());
       },
     );
+
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-          title: CircleAvatar(
-            backgroundColor: Color(0xFFF73658),
-            radius: 40.r,
-            child: Center(
-              child: Icon(
-                Icons.done,
-                color: Colors.white,
+      builder: (context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+
+        return AlertDialog(
+            title: CircleAvatar(
+              backgroundColor: Color(0xFFF73658),
+              radius: 40.r,
+              child: Center(
+                child: Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          content: Text(
-            'Payment done successfully.',
-            style: GoogleFonts.montserrat(
-              color: Color(0xFF222222),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
-              height: 0.14,
-            ),
-          )),
+            content: Text(
+              'Payment done successfully.',
+              style: GoogleFonts.montserrat(
+                color: Color(0xFF222222),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                height: 0.14,
+              ),
+            ));
+      },
+    ).then(
+      (value) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Bottomnavigation()));
+      },
     );
   }
 

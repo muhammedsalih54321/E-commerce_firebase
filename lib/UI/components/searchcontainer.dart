@@ -78,7 +78,7 @@ class Searchcontainer extends StatelessWidget {
                   height: 10.h,
                 ),
                 SizedBox(
-                  width: 162.w,
+                  width: 150.w,
                   child: Text(
                    maxLines: 3,
                     about,
