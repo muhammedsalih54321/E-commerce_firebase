@@ -58,6 +58,7 @@ class _BuynowState extends State<Buynow> {
         .doc(widget.id.toString())
         .set({
       "id": widget.id.toString(),
+      "stutus":"Order Placed",
       'date':
           '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
       "title": widget.title.toString(),

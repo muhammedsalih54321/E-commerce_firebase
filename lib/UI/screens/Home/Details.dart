@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
+import 'package:e_commerce_firebase/UI/screens/Cart.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/Buy%20now.dart';
 import 'package:e_commerce_firebase/UI/screens/Wishlist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +89,9 @@ class _DetailsState extends State<Details> {
             )),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>Cart()));
+              },
               icon: Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.black,
@@ -178,7 +181,7 @@ class _DetailsState extends State<Details> {
                             .delete()
                             .then(
                           (value) {
-                            ToastMessage().toastmessage(message: 'remove');
+                          
                             setState(() {
                               favourate = false;
                             });
@@ -205,10 +208,11 @@ class _DetailsState extends State<Details> {
                           "discount": widget.discount.toString()
                         }).then(
                           (value) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Go to Whish list'),
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 3),
+                    behavior: SnackBarBehavior.floating,
+                              content: Text('Go to Wish list'),
                               action: SnackBarAction(
-                                  label: 'Whish List',
+                                  label: 'Wish List',
                                   onPressed: () {
                                     Navigator.push(
                                         context,
@@ -339,7 +343,8 @@ class _DetailsState extends State<Details> {
                        setState(() {
                   loading = false;
                 });
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 3),
+                    behavior: SnackBarBehavior.floating,
                               content: Text('Go to Cart Page'),
                               action: SnackBarAction(
                                   label: 'Cart Page',
@@ -347,7 +352,7 @@ class _DetailsState extends State<Details> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => Wishlist()));
+                                            builder: (_) => Cart()));
                                   }),
                             ));
                   },

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -203,8 +203,7 @@ class _EditState extends State<Edit> {
                                   setState(() {
                                     loading = false;
                                   }),
-                                  ToastMessage().toastmessage(
-                                      message: 'Uploaded successfully'),
+                                 
                                   updated.clear(),
                                   Navigator.pop(context),
                                   setState(() {
@@ -232,7 +231,7 @@ class _EditState extends State<Edit> {
                                 loading
                                     ? CircularProgressIndicator()
                                     : Text(
-                                        'UPDATED',
+                                        'UPDATE',
                                         style: GoogleFonts.plusJakartaSans(
                                           color: Colors.white,
                                           fontSize: 18.sp,

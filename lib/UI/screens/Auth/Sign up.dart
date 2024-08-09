@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/UI/components/Bottomnavigation.dart';
 import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
 import 'package:e_commerce_firebase/UI/screens/Auth/Phone.dart';
+import 'package:e_commerce_firebase/UI/screens/Auth/Sign%20in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -450,7 +451,7 @@ class _Sign_upState extends State<Sign_up> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => Sign_up()));
+                              MaterialPageRoute(builder: (_) => Sign_in()));
                         },
                         child: Text(
                           'Login',

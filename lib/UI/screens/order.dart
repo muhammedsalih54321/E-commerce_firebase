@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/UI/components/ordercontainer.dart';
+import 'package:e_commerce_firebase/UI/screens/ordertracking.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -62,19 +63,22 @@ class Orders extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Ordercontainer(
-                          img: snapshot.data!.docs[index]['Thumnail'],
-                          title: snapshot.data!.docs[index]['title'].toString(),
-                          Price: snapshot.data!.docs[index]['price'].toString(),
-                          offer: snapshot.data!.docs[index]['offer'].toString(),
-                          star: double.parse(
-                              snapshot.data!.docs[index]['rating'].toString()),
-                          index: index,
-                          discount:
-                              snapshot.data!.docs[index]['discount'].toString(),
-                          id: snapshot.data!.docs[index]['id'].toString(),
-                          date: snapshot.data!.docs[index]['date'].toString(),
-                          rating: snapshot.data!.docs[index]['rating'].toString(),
+                        return GestureDetector(
+                          onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_)=>Ordertracking(Tracker:snapshot.data!.docs[index]['stutus'].toString(),))),
+                          child: Ordercontainer(
+                            img: snapshot.data!.docs[index]['Thumnail'],
+                            title: snapshot.data!.docs[index]['title'].toString(),
+                            Price: snapshot.data!.docs[index]['price'].toString(),
+                            offer: snapshot.data!.docs[index]['offer'].toString(),
+                            star: double.parse(
+                                snapshot.data!.docs[index]['rating'].toString()),
+                            index: index,
+                            discount:
+                                snapshot.data!.docs[index]['discount'].toString(),
+                            id: snapshot.data!.docs[index]['id'].toString(),
+                            date: snapshot.data!.docs[index]['date'].toString(),
+                            rating: snapshot.data!.docs[index]['rating'].toString(),
+                          ),
                         );
                       },
                     ),

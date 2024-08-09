@@ -275,7 +275,7 @@ class _Sign_inState extends State<Sign_in> {
                         child: Container(
                           width: 54.w,
                           height: 54.h,
-                          padding: const EdgeInsets.all(15),
+                          
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
                             color: Color(0xFFFBF3F5),
@@ -284,10 +284,12 @@ class _Sign_inState extends State<Sign_in> {
                               borderRadius: BorderRadius.circular(50.r),
                             ),
                           ),
-                          child: Icon(
-                            Icons.phone,
-                            color: Colors.black,
-                            size: 28.sp,
+                          child: Center(
+                            child: Icon(
+                              Icons.phone,
+                              color: Colors.black,
+                              size: 28.sp,
+                            ),
                           ),
                         ),
                       ),
@@ -299,8 +301,8 @@ class _Sign_inState extends State<Sign_in> {
                           signinwithgoogle();
                         },
                         child: Container(
-                          width: 54,
-                          height: 54,
+                          width: 54.w,
+                          height: 54.h,
                           padding: const EdgeInsets.all(15),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
