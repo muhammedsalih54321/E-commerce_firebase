@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:e_commerce_firebase/UI/components/Bottomnavigation.dart';
-import 'package:e_commerce_firebase/UI/screens/Auth/Sign%20in.dart';
+
+import 'package:e_commerce_firebase/UI/screens/onboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ class _SplashState extends State<Splash> {
       Timer(
           Duration(seconds: 3),
           () => Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => Sign_in())));
+              context, MaterialPageRoute(builder: (_) => Onboard())));
     }
   }
 

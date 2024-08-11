@@ -3,7 +3,7 @@ import 'package:e_commerce_firebase/UI/components/Toastmessage.dart';
 import 'package:e_commerce_firebase/UI/components/profilecontainer.dart';
 import 'package:e_commerce_firebase/UI/screens/Auth/Sign%20in.dart';
 import 'package:e_commerce_firebase/UI/screens/Settings/Edit.dart';
-import 'package:e_commerce_firebase/UI/screens/order.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/order.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

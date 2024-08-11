@@ -4,7 +4,7 @@ import 'package:e_commerce_firebase/UI/components/Homecontainer.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/Deal%20of%20the%20day.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/Trending%20Products.dart';
 import 'package:e_commerce_firebase/UI/screens/Home/categories.dart';
-import 'package:e_commerce_firebase/UI/screens/order.dart';
+import 'package:e_commerce_firebase/UI/screens/Home/order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

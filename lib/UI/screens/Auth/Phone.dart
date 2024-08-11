@@ -136,7 +136,7 @@ class _PhoneState extends State<Phone> {
                                       loading
                                           ? CircularProgressIndicator()
                                           : Text(
-                                              'SUBMIT',
+                                              'SEND OTP',
                                               style: GoogleFonts.montserrat(
                                                 color: Colors.white,
                                                 fontSize: 20.sp,
