@@ -173,6 +173,7 @@ class _SettingsState extends State<Settings> {
                         SizedBox(
                           height: 20.h,
                         ),
+                        
                       ],
                     );
                   } else {
